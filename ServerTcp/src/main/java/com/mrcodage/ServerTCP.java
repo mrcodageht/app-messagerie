@@ -5,13 +5,15 @@ import com.mrcodage.model.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerTCP {
     static int PORT = 9360;
     public static void main(String[] args) throws IOException {
-        try(ServerSocket serverSocket = new ServerSocket(PORT)){
+
+        try(ServerSocket serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("10.0.x.x"))){
             System.out.println("----------------------");
             System.out.println("Lancement du serveur");
             System.out.println("----------------------");

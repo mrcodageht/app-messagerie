@@ -14,7 +14,7 @@ public class ClientTCP {
     public static void main(String[] args) {
         try{
             var server = InetAddress.getByName("localhost");
-            var socket = new Socket(server,ServerTCP.PORT);
+            var socket = new Socket("10.0.x.x",ServerTCP.PORT);
 
             while(true) {
                 sendMessage(socket);
