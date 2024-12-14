@@ -13,7 +13,7 @@ public class ServerTCP {
     static int PORT = 9360;
     public static void main(String[] args) throws IOException {
 
-        try(ServerSocket serverSocket = new ServerSocket(PORT, 50, InetAddress.getByName("10.0.x.x"))){
+        try(ServerSocket serverSocket = new ServerSocket(PORT)){
             System.out.println("----------------------");
             System.out.println("Lancement du serveur");
             System.out.println("----------------------");
@@ -28,7 +28,7 @@ public class ServerTCP {
                         throw new RuntimeException(e);
                     }
                 };
-                socketThread.run();
+                new Thread(socketThread).start();
             }
 
         }
