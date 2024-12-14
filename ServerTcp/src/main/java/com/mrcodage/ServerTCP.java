@@ -8,9 +8,13 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerTCP {
     static int PORT = 9360;
+    static Map<String,String> clientsConnected = new HashMap<String, String>();
+
     public static void main(String[] args) throws IOException {
 
         try(ServerSocket serverSocket = new ServerSocket(PORT)){
