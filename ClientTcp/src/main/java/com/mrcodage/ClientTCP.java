@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -18,20 +19,36 @@ public class ClientTCP {
             var server = InetAddress.getByName("localhost");
             var socket = new Socket(server,ServerTCP.PORT);
 
-            etablishConnection(socket);
-
-            communicate(socket);
+            if(etablishConnection(socket)) {
+                communicate(socket);
+            }else{
+                socket.close();
+            }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static void etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
+    private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
         var out = new ObjectOutputStream(socket.getOutputStream());
-        String clientId = generate_uuid();
-        Message connectionMessage = new Message(clientId,"connection request");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrez votre username de connection");
+        System.out.print("username %> ");
+        String username = sc.nextLine();
+        String clientId = generate_uuid(username);
+        Message connectionMessage = new Message(username,clientId,100);
         out.writeObject(connectionMessage);
-        readMessage(socket);
+
+//        Lecture de la response du serveur
+        var in = new ObjectInputStream(socket.getInputStream());
+        Message messageLu = (Message) in.readObject();
+        System.out.println(messageLu);
+        if(messageLu.getCode()==210){
+            return false;
+        } else if (messageLu.getCode() == 200) {
+            return true;
+        }
+        return true;
     }
 
     private static void communicate(Socket socket) throws IOException,ClassNotFoundException{
@@ -44,7 +61,10 @@ public class ClientTCP {
     private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {
         var in = new ObjectInputStream(socket.getInputStream());
         Message messageLu = (Message) in.readObject();
-        System.out.println("* Serveur * : "+messageLu.content());
+        if(messageLu.getCode()==210){
+            socket.close();
+        }
+        System.out.println(messageLu);
     }
 
     private static void sendMessage(Socket socket) throws IOException {
@@ -59,9 +79,8 @@ public class ClientTCP {
         out.writeObject(message);
     }
 
-    private static String generate_uuid(){
-        var uuid = UUID.randomUUID();
-        var uuidSplit = String.valueOf(uuid).split("-");
-        return uuidSplit[uuidSplit.length-1];
+    private static String generate_uuid(String username){
+        var uuid = UUID.nameUUIDFromBytes(username.getBytes(StandardCharsets.UTF_8));
+        return String.valueOf(uuid);
     }
 }
