@@ -17,8 +17,6 @@ import java.util.Map;
 
 public class ServerTCP {
     static int PORT = 9360;
-    static Map<String,Socket> clientsConnected = new HashMap<String, Socket>();
-    static Map<String,String> userTracker = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
 
@@ -82,6 +80,20 @@ public class ServerTCP {
             case "/list":
                 commandUser("/list",socketClient);
                 break;
+            case "/msg":
+                commandUser("/msg",socketClient);
+                break;
+            case "sendto":
+                commandUser("sendto",socketClient);
+                break;
+            case "/broadcast":
+                commandUser("/broadcast",socketClient);
+                break;
+            case "/quit":
+                Message messageDeconnection = new Message("server","Vous etes offline",105);
+                sendMessageCommand(socketClient,messageDeconnection);
+                socketClient.close();
+                break;
             default:
                 System.out.println(message);
 
@@ -94,12 +106,21 @@ public class ServerTCP {
         switch (command_str){
             case "/list":
                 StringBuilder sb = new StringBuilder();
-                for(String userName : userTracker.keySet()){
-                    sb.append(userName).append("\n");
+                for(String userName : UserManage.userTracker.keySet()){
+                    String uuid = UserManage.userTracker.get(userName);
+                    if(UserManage.clientsConnected.get(uuid)==socketClient){
+                        sb.append(userName).append(" (vous)").append("|");
+                    }else {
+                        sb.append(userName).append("|");
+                    }
                 }
-                Message message = new Message("server", sb.toString());
+                Message message = new Message("server", sb.toString(),"/list");
                 sendMessageCommand(socketClient,message);
                 break;
+            case "/sendto":
+                String username = "";
+
+
         }
     }
 
@@ -116,8 +137,8 @@ public class ServerTCP {
                     FileManagement.writeOnFile(file,message.getContent());
                 }
                 sendResponseRequestConnection(socketClient,"approuve",200);
-                clientsConnected.put(message.getContent(),socketClient);
-                userTracker.put(message.getSender(), message.getContent());
+                UserManage.clientsConnected.put(message.getContent(),socketClient);
+                UserManage.userTracker.put(message.getSender(), message.getContent());
 
             }else{
                 sendResponseRequestConnection(socketClient,"Ce client est deja connecte",210);
@@ -132,8 +153,8 @@ public class ServerTCP {
     }
 
     public static boolean vericateUser(String idClient){
-        if(!clientsConnected.isEmpty()){
-            for(Map.Entry<String,Socket> client : clientsConnected.entrySet() ){
+        if(!UserManage.clientsConnected.isEmpty()){
+            for(Map.Entry<String,Socket> client : UserManage.clientsConnected.entrySet() ){
                 String id = client.getKey();
                 if(id.equals(idClient)){
                     return true;

@@ -15,6 +15,7 @@ public class Message implements Serializable {
     private OffsetDateTime dateTime;
     private String idMessage;
     private int code;
+    private String commandStr;
 
 
     public Message(String sender, String content){
@@ -30,6 +31,12 @@ public class Message implements Serializable {
         this.dateTime = OffsetDateTime.now();
         this.idMessage = generateIdMessage(content.isEmpty()?"":content);
         this.code = code;
+    }
+
+    public Message(String sender, String content,String commandStr){
+        this.sender=sender;
+        this.content = content;
+        this.commandStr = commandStr;
     }
 
     private String generateIdMessage(String content){
@@ -50,6 +57,14 @@ public class Message implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCommandStr() {
+        return commandStr;
+    }
+
+    public void setCommandStr(String commandStr) {
+        this.commandStr = commandStr;
     }
 
     public OffsetDateTime getDateTime() {

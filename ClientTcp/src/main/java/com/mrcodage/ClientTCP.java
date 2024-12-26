@@ -7,8 +7,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -24,6 +27,8 @@ public class ClientTCP {
             }else{
                 socket.close();
             }
+        }catch(SocketException esx){
+            System.out.println("Vous etes deconnecte");
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -52,10 +57,19 @@ public class ClientTCP {
     }
 
     private static void communicate(Socket socket) throws IOException,ClassNotFoundException{
-        while (!socket.isClosed()) {
-            sendMessage(socket);
-            readMessage(socket);
-        }
+        Runnable Thread = ()->{
+            while (!socket.isClosed()) {
+                try {
+                    sendMessage(socket);
+                    readMessage(socket);
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        };
+        Thread.run();
+
     }
 
     private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {
@@ -63,8 +77,24 @@ public class ClientTCP {
         Message messageLu = (Message) in.readObject();
         if(messageLu.getCode()==210){
             socket.close();
+        } else if (messageLu.getCode()==105) {
+            socket.close();
+            return;
         }
-        System.out.println(messageLu);
+        if(messageLu.getCommandStr() != null){
+            switch(messageLu.getCommandStr().trim()){
+                case "/list":
+                    int compteur =1;
+                    String[] usersConnectedList = messageLu.getContent().split("\\|");
+                    System.out.println("Les utilisateurs connectes");
+                    for(String userConnected : usersConnectedList){
+                        System.out.printf("%s - %s\n",compteur,userConnected);
+                        compteur++;
+                    }
+                    break;
+            }
+        }else
+            System.out.println(messageLu);
     }
 
     private static void sendMessage(Socket socket) throws IOException {
@@ -72,8 +102,10 @@ public class ClientTCP {
         String content="";
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Client > ");
-        content = sc.nextLine();
+        while(content.isBlank()) {
+            System.out.print("Client > ");
+            content = sc.nextLine();
+        }
 
         Message message = new Message("client",content);
         out.writeObject(message);
