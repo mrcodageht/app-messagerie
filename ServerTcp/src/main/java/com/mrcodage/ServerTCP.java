@@ -74,53 +74,57 @@ public class ServerTCP {
     }
 
     private static void readClientInput(Socket socketClient) throws IOException, ClassNotFoundException {
-        var in = new ObjectInputStream(socketClient.getInputStream());
-        Message message = (Message) in.readObject();
-        switch (message.getContent().toLowerCase(Locale.ROOT).trim()){
-            case "/list":
-                commandUser("/list",socketClient);
-                break;
-            case "/msg":
-                commandUser("/msg",socketClient);
-                break;
-            case "sendto":
-                commandUser("sendto",socketClient);
-                break;
-            case "/broadcast":
-                commandUser("/broadcast",socketClient);
-                break;
-            case "/quit":
-                Message messageDeconnection = new Message("server","Vous etes offline",105);
-                sendMessageCommand(socketClient,messageDeconnection);
-                socketClient.close();
-                break;
-            default:
-                System.out.println(message);
+        Message message = clientInput(socketClient);
 
-        }
-
-
+        if(message.getCommand() != null) {
+            switch (message.getCommand()) {
+                case CommandServer.LIST -> commandUser(CommandServer.LIST, socketClient, message);
+                case CommandServer.SENDTO -> commandUser(CommandServer.SENDTO, socketClient, message);
+                case CommandServer.BROADCAST -> commandUser(CommandServer.BROADCAST, socketClient, message);
+                case CommandServer.QUIT -> {
+                    Message messageDeconnection = new Message("server", "Vous etes offline", 105);
+                    sendMessageCommand(socketClient, messageDeconnection);
+                    socketClient.close();
+                }
+            }
+        }else
+            System.out.println(message);
     }
 
-    private static void commandUser(String command_str, Socket socketClient) throws IOException {
-        switch (command_str){
-            case "/list":
+    private static Message clientInput(Socket socketClient)throws IOException, ClassNotFoundException{
+        var in = new ObjectInputStream(socketClient.getInputStream());
+       return (Message) in.readObject();
+    }
+
+    private static void commandUser(CommandServer cmd, Socket socketClient,Message message) throws IOException, ClassNotFoundException {
+        switch (cmd){
+            case CommandServer.LIST -> {
                 StringBuilder sb = new StringBuilder();
-                for(String userName : UserManage.userTracker.keySet()){
+                for (String userName : UserManage.userTracker.keySet()) {
                     String uuid = UserManage.userTracker.get(userName);
-                    if(UserManage.clientsConnected.get(uuid)==socketClient){
+                    if (UserManage.clientsConnected.get(uuid) == socketClient) {
                         sb.append(userName).append(" (vous)").append("|");
-                    }else {
+                    } else {
                         sb.append(userName).append("|");
                     }
                 }
-                Message message = new Message("server", sb.toString(),"/list");
-                sendMessageCommand(socketClient,message);
-                break;
-            case "/sendto":
-                String username = "";
-
-
+                Message msg = new Message("server", sb.toString(), CommandServer.LIST);
+                sendMessageCommand(socketClient, msg);
+            }
+            case CommandServer.SENDTO->{
+                String[] infosCommand = message.getContent().split(" ",3);
+                if(infosCommand.length == 3) {
+                    String userCleanSplit = infosCommand[1].substring(1,infosCommand[1].length()-1);
+                    String userToChatId = UserManage.userTracker.get(userCleanSplit);
+                    if (vericateUser(userToChatId)) {
+                        sendMessageCommand(socketClient, new Message("server", "Demande de tchat avec id : " + userToChatId));
+                    } else {
+                        sendMessageCommand(socketClient, new Message("server", "Utilisateur non trouve",410));
+                    }
+                }else{
+                    sendMessageCommand(socketClient, new Message("server", "Format de la commande incorrect : /sendto <nom d'utilisateur de la personne> <message a envoye>"));
+                }
+            }
         }
     }
 

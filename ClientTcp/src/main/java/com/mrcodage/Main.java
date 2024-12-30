@@ -10,5 +10,10 @@ public class Main {
         var uuid = UUID.nameUUIDFromBytes(username.getBytes(StandardCharsets.UTF_8));
         System.out.println(uuid);
 
+        String chaine = "<destinatare>";
+
+
+        System.out.println(String.valueOf(chaine.charAt(chaine.length()-1)).equals(">")?"Egale": "pas egale");
+
     }
 }

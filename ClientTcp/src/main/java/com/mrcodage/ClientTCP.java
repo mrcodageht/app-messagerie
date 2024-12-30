@@ -1,7 +1,9 @@
 package com.mrcodage;
 
 import com.mrcodage.model.Message;
+import com.mrcodage.utilitaires.SynopsisCMD;
 
+import javax.crypto.spec.PSource;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,13 +12,18 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+
 public class ClientTCP {
     static boolean FIRST_CONNECTION = true;
+    static String username = "";
+
     public static void main(String[] args) {
         try{
             var server = InetAddress.getByName("localhost");
@@ -47,7 +54,7 @@ public class ClientTCP {
 //        Lecture de la response du serveur
         var in = new ObjectInputStream(socket.getInputStream());
         Message messageLu = (Message) in.readObject();
-        System.out.println(messageLu);
+        formatMessage(messageLu);
         if(messageLu.getCode()==210){
             return false;
         } else if (messageLu.getCode() == 200) {
@@ -60,9 +67,15 @@ public class ClientTCP {
         Runnable Thread = ()->{
             while (!socket.isClosed()) {
                 try {
-                    sendMessage(socket);
+                    if(!socket.isClosed()) {
+                        sendMessage(socket);
+                    }
                     readMessage(socket);
-                } catch (IOException | ClassNotFoundException e) {
+                }catch(SocketException e){
+                    System.out.println("Hors ligne a "+ OffsetDateTime.now().format(ISO_LOCAL_DATE));
+                    break;
+                }
+                catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
 
@@ -81,33 +94,40 @@ public class ClientTCP {
             socket.close();
             return;
         }
-        if(messageLu.getCommandStr() != null){
-            switch(messageLu.getCommandStr().trim()){
-                case "/list":
-                    int compteur =1;
+        if(messageLu.getCommand() != null){
+            switch(messageLu.getCommand()) {
+                case CommandServer.LIST-> {
+                    int compteur = 1;
                     String[] usersConnectedList = messageLu.getContent().split("\\|");
                     System.out.println("Les utilisateurs connectes");
-                    for(String userConnected : usersConnectedList){
-                        System.out.printf("%s - %s\n",compteur,userConnected);
+                    for (String userConnected : usersConnectedList) {
+                        System.out.printf("%s - %s\n", compteur, userConnected);
                         compteur++;
                     }
-                    break;
+                }
+                case CommandServer.SENDTO -> {
+
+                }
             }
         }else
-            System.out.println(messageLu);
+            formatMessage(messageLu);
     }
 
     private static void sendMessage(Socket socket) throws IOException {
         var out = new ObjectOutputStream(socket.getOutputStream());
-        String content="";
-        Scanner sc = new Scanner(System.in);
+        Message message = readInputUserAndConstructMessage();
+        boolean isCorrect=false;
 
-        while(content.isBlank()) {
-            System.out.print("Client > ");
-            content = sc.nextLine();
+        if(message.getCommand() != null && message.getCommand() == CommandServer.SENDTO) {
+            do {
+                isCorrect = isMessageCmdCorrect(message);
+                if(!isCorrect){
+                    System.out.println("Erreur du formattage de la commande "+message.getCommand());
+                    System.out.println(SynopsisCMD.getSysnopsisSendToCmd());
+                    message = readInputUserAndConstructMessage();
+                }
+            }while(!isCorrect);
         }
-
-        Message message = new Message("client",content);
         out.writeObject(message);
     }
 
@@ -115,4 +135,58 @@ public class ClientTCP {
         var uuid = UUID.nameUUIDFromBytes(username.getBytes(StandardCharsets.UTF_8));
         return String.valueOf(uuid);
     }
+
+    private static void formatMessage(Message messageToFormat){
+        System.out.printf("\t\t[%s] : %s : [%s]\n",messageToFormat.getSender(),messageToFormat.getContent(),messageToFormat.getDateTime().format(ISO_LOCAL_DATE));
+    }
+
+    private static Message readInputUserAndConstructMessage(){
+        List<String> commandUserList_str = List.of("/list","/quit","/sendto","/broadcast");
+        String content="";
+        Scanner sc = new Scanner(System.in);
+        while(content.isBlank()) {
+            System.out.print("Vous > ");
+            content = sc.nextLine().trim();
+        }
+        String cmdFound = "";
+        for(String cmd : commandUserList_str){
+            int indexTarget = content.indexOf(cmd);
+            if(indexTarget >= 0){
+                cmdFound = content.substring(indexTarget,indexTarget+cmd.length());
+                break;
+            }
+        }
+        return cmdFound.isBlank()? new Message(generate_uuid(username),content): new Message(generate_uuid(username),content,getCommandeEnum(cmdFound));
+    }
+
+    private static CommandServer getCommandeEnum(String cmd_str){
+        return switch (cmd_str) {
+            case "/list" -> CommandServer.LIST;
+            case "/quit" -> CommandServer.QUIT;
+            case "/sendto" -> CommandServer.SENDTO;
+            case "/broadcast" -> CommandServer.BROADCAST;
+            default -> null;
+        };
+    }
+
+    private static boolean isMessageCmdCorrect(Message message){
+        boolean isCorrect = false;
+        switch(message.getCommand()){
+            case CommandServer.SENDTO -> {
+                String[] message_split_str = message.getContent().split(" ",3);
+                Arrays.stream(message_split_str).forEach(System.out::println);
+                if(message_split_str.length==3){
+                    isCorrect = checkChevronArgument(message_split_str[1]) && checkChevronArgument(message_split_str[2]);
+                }
+            }
+        }
+        return isCorrect;
+    }
+
+    private static boolean checkChevronArgument(String messageToCheck){
+        return String.valueOf(messageToCheck.charAt(0)).equals("<")
+                && String.valueOf(messageToCheck.charAt(messageToCheck.length()-1)).equals(">");
+    }
+
+
 }

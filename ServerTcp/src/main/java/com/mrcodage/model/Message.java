@@ -1,5 +1,7 @@
 package com.mrcodage.model;
 
+import com.mrcodage.CommandServer;
+
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
@@ -15,7 +17,7 @@ public class Message implements Serializable {
     private OffsetDateTime dateTime;
     private String idMessage;
     private int code;
-    private String commandStr;
+    private CommandServer cmd;
 
 
     public Message(String sender, String content){
@@ -33,10 +35,11 @@ public class Message implements Serializable {
         this.code = code;
     }
 
-    public Message(String sender, String content,String commandStr){
+    public Message(String sender, String content, CommandServer cmd){
         this.sender=sender;
         this.content = content;
-        this.commandStr = commandStr;
+        this.dateTime = OffsetDateTime.now();
+        this.cmd = cmd;
     }
 
     private String generateIdMessage(String content){
@@ -59,12 +62,12 @@ public class Message implements Serializable {
         this.content = content;
     }
 
-    public String getCommandStr() {
-        return commandStr;
+    public CommandServer getCommand() {
+        return cmd;
     }
 
-    public void setCommandStr(String commandStr) {
-        this.commandStr = commandStr;
+    public void setCommand(CommandServer cmd) {
+        this.cmd = cmd;
     }
 
     public OffsetDateTime getDateTime() {
@@ -101,4 +104,16 @@ public class Message implements Serializable {
                 \n================================================================
                 """;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Message{" +
+//                "sender='" + sender + '\'' +
+//                ", content='" + content + '\'' +
+//                ", dateTime=" + dateTime +
+//                ", idMessage='" + idMessage + '\'' +
+//                ", code=" + code +
+//                ", cmd=" + cmd +
+//                '}';
+//    }
 }
