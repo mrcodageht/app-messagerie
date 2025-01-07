@@ -7,13 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.HashMap;
-import java.util.Locale;
+
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ServerTCP {
     static int PORT = 9360;
@@ -36,8 +35,15 @@ public class ServerTCP {
                     }
                 };
                 new Thread(socketThread).start();
+
+                Thread threadCheckingConnection = new Thread(ServerTCP::checkIsUserConnected);
+                threadCheckingConnection.start();
+                Thread.sleep(5000);
+
             }
 
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -168,5 +174,27 @@ public class ServerTCP {
             return false;
         }
         return false;
+    }
+
+    private static void checkIsUserConnected(){
+        if(UserManage.clientsConnected.isEmpty()) {
+            System.out.println("Aucun client connecte");
+            return;
+        }
+        Lock verrou = new ReentrantLock();
+        verrou.lock();
+        try {
+            for (Map.Entry<String, Socket> map : UserManage.clientsConnected.entrySet()) {
+                Socket socketClient = map.getValue();
+                String idUser = map.getKey();
+
+                if (socketClient.isClosed() || !socketClient.isConnected()) {
+                    System.out.println("L'utilisateur avec l'id : " + idUser + " n'est pas connecte");
+                    UserManage.clientsConnected.remove(idUser);
+                }
+            }
+        }finally {
+            verrou.unlock();
+        }
     }
 }
