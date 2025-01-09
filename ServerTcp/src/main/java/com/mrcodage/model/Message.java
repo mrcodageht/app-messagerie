@@ -1,6 +1,7 @@
 package com.mrcodage.model;
 
 import com.mrcodage.CommandServer;
+import com.mrcodage.utilitaires.Serialization;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -10,13 +11,13 @@ import java.util.UUID;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
 
-public class Message implements Serializable {
+public class Message implements Serializable, Serialization {
 
     private String sender;
     private String content;
     private OffsetDateTime dateTime;
     private String idMessage;
-    private int code;
+    private Integer code;
     private CommandServer cmd;
 
 
@@ -24,20 +25,22 @@ public class Message implements Serializable {
         this.sender = sender;
         this.content = content;
         this.dateTime = OffsetDateTime.now();
+        this.idMessage = generateIdMessage(content.isEmpty()?"":content);
         this.code = 0;
     }
 
-    public Message(String sender, String content, int code) {
+    public Message(String sender, String content, Integer code) {
         this.sender = sender;
         this.content = content;
         this.dateTime = OffsetDateTime.now();
         this.idMessage = generateIdMessage(content.isEmpty()?"":content);
-        this.code = code;
+        this.code = code==null?0:code;
     }
 
     public Message(String sender, String content, CommandServer cmd){
         this.sender=sender;
         this.content = content;
+        this.idMessage = generateIdMessage(content.isEmpty()?"":content);
         this.dateTime = OffsetDateTime.now();
         this.cmd = cmd;
     }
@@ -86,11 +89,11 @@ public class Message implements Serializable {
         this.idMessage = idMessage;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
@@ -103,6 +106,23 @@ public class Message implements Serializable {
                 \nDate :"""+" "+this.dateTime.format(ISO_LOCAL_DATE)+"""
                 \n================================================================
                 """;
+    }
+
+    @Override
+    public String serializer() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("idMessage : ");
+        sb.append(this.idMessage == null ? "" : this.idMessage);
+        sb.append(" || idSender : ");
+        sb.append(this.sender);
+        sb.append(" ");
+        sb.append(this.cmd == null ? "" : "|| cmd : "+this.cmd);
+        sb.append(" ");
+        sb.append(this.code == null ? "" : "|| code : "+this.code);
+        sb.append(" || date : ");
+        sb.append(this.dateTime);
+        return sb.toString();
     }
 
 //    @Override

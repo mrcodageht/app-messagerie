@@ -1,7 +1,9 @@
 package com.mrcodage;
 
-import com.mrcodage.file_utilitaires.FileManagement;
+import com.mrcodage.utilitaires.FileManagement;
 import com.mrcodage.model.Message;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,52 +12,39 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import java.util.Arrays;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ServerTCP {
     static int PORT = 9360;
-
+    private static final Logger logger = LogManager.getLogger(ServerTCP.class);
     public static void main(String[] args) throws IOException {
-
         try(ServerSocket serverSocket = new ServerSocket(PORT)){
-            System.out.println("----------------------");
-            System.out.println("Lancement du serveur");
-            System.out.println("----------------------");
-
+            logger.debug("----------------------");
+            logger.warn("Lancement du serveur");
+            logger.debug("----------------------");
+            new Thread(new Traitement()).start();
             while(true){
                 Socket socketClient = serverSocket.accept();
-
                 Runnable socketThread = ()->{
                     try {
                         processThread(socketClient);
                     } catch (IOException | ClassNotFoundException e) {
-                        System.out.println(e.getMessage());
+                        logger.error("Une erreur s'est produite : {}",String.valueOf(e));
                     }
                 };
                 new Thread(socketThread).start();
-
-                Thread threadCheckingConnection = new Thread(ServerTCP::checkIsUserConnected);
-                threadCheckingConnection.start();
-                Thread.sleep(5000);
-
             }
-
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            logger.error("Une erreur s'est produite : {}",String.valueOf(e));
         }
     }
 
     private static void processThread(Socket socketClient) throws IOException, ClassNotFoundException {
-        System.out.println("-------------------------------------------------");
-        System.out.println("Connexion avec : "+socketClient.getInetAddress());
-        System.out.println("-------------------------------------------------");
-        System.out.println();
-
+        logger.debug("-------------------------------------------------");
+        logger.info("Connexion avec : {}",socketClient.getInetAddress());
+        logger.debug("-------------------------------------------------");
         requestConnectionClient(socketClient);
-
-
         while(socketClient.isConnected()) {
             readClientInput(socketClient);
             sendResponseToClient(socketClient);
@@ -63,20 +52,18 @@ public class ServerTCP {
     }
 
     private static void sendResponseToClient(Socket socketClient) throws IOException {
-        var out = new ObjectOutputStream(socketClient.getOutputStream());
         Message serverMessage = new Message("server","Message bien recu");
-        out.writeObject(serverMessage);
+        sendMessage(socketClient,serverMessage);
     }
 
-    private static void sendMessageCommand(Socket socketClient, Message message) throws IOException{
+    private static void sendMessage(Socket socketClient, Message message) throws IOException{
         var out = new ObjectOutputStream(socketClient.getOutputStream());
         out.writeObject(message);
     }
 
     private static void sendResponseRequestConnection(Socket socketClient, String message,int code) throws IOException{
-        var out = new ObjectOutputStream(socketClient.getOutputStream());
         Message responseConnection = new Message("server",message,code);
-        out.writeObject(responseConnection);
+        sendMessage(socketClient,responseConnection);
     }
 
     private static void readClientInput(Socket socketClient) throws IOException, ClassNotFoundException {
@@ -89,12 +76,20 @@ public class ServerTCP {
                 case CommandServer.BROADCAST -> commandUser(CommandServer.BROADCAST, socketClient, message);
                 case CommandServer.QUIT -> {
                     Message messageDeconnection = new Message("server", "Vous etes offline", 105);
-                    sendMessageCommand(socketClient, messageDeconnection);
+                    sendMessage(socketClient, messageDeconnection);
+                    String uuid = "";
+                    for(Map.Entry<String, Socket> entry:UserManage.clientsConnected.entrySet()){
+                        if(entry.getValue()==socketClient){
+                            uuid=entry.getKey();
+                            break;
+                        }
+                    }
+                    logger.warn("Deconnection du client avec le uuid : {}",uuid);
                     socketClient.close();
                 }
             }
         }else
-            System.out.println(message);
+            logger.info(message.serializer());
     }
 
     private static Message clientInput(Socket socketClient)throws IOException, ClassNotFoundException{
@@ -103,6 +98,8 @@ public class ServerTCP {
     }
 
     private static void commandUser(CommandServer cmd, Socket socketClient,Message message) throws IOException, ClassNotFoundException {
+        logger.info("commande de l'utilisateur : {}",cmd);
+        logger.info(message.serializer());
         switch (cmd){
             case CommandServer.LIST -> {
                 StringBuilder sb = new StringBuilder();
@@ -115,20 +112,35 @@ public class ServerTCP {
                     }
                 }
                 Message msg = new Message("server", sb.toString(), CommandServer.LIST);
-                sendMessageCommand(socketClient, msg);
+                sendMessage(socketClient, msg);
             }
             case CommandServer.SENDTO->{
                 String[] infosCommand = message.getContent().split(" ",3);
                 if(infosCommand.length == 3) {
                     String userCleanSplit = infosCommand[1].substring(1,infosCommand[1].length()-1);
+                    String content = infosCommand[2].substring(1,infosCommand[2].length()-1);
                     String userToChatId = UserManage.userTracker.get(userCleanSplit);
                     if (vericateUser(userToChatId)) {
-                        sendMessageCommand(socketClient, new Message("server", "Demande de tchat avec id : " + userToChatId));
+                        sendMessage(socketClient, new Message("server", "Demande de tchat avec id : " + userToChatId));
+                        Socket socketToSendMessage = UserManage.clientsConnected.get(userToChatId);
+                        if(socketToSendMessage == null){
+                            throw new ClientNotFoundException(userToChatId);
+                        }
+                        String uuidSender = UserManage.clientsConnected.entrySet().stream()
+                                .filter((us)->us.getValue()==socketClient)
+                                .findFirst().get().getKey();
+                        String usernameSender = UserManage.userTracker.entrySet().stream()
+                                .filter(us->us.getValue().equals(uuidSender))
+                                .findFirst().get().getKey();
+                        Message messageTosend = new Message(usernameSender,content);
+                        sendMessage(socketToSendMessage,messageTosend);
+                        messageTosend.setSender(uuidSender);
+                        logger.info(messageTosend);
                     } else {
-                        sendMessageCommand(socketClient, new Message("server", "Utilisateur non trouve",410));
+                        sendMessage(socketClient, new Message("server", "Utilisateur non trouve",410));
                     }
                 }else{
-                    sendMessageCommand(socketClient, new Message("server", "Format de la commande incorrect : /sendto <nom d'utilisateur de la personne> <message a envoye>"));
+                    sendMessage(socketClient, new Message("server", "Format de la commande incorrect : /sendto <nom d'utilisateur de la personne> <message a envoye>"));
                 }
             }
         }
@@ -156,9 +168,9 @@ public class ServerTCP {
             }
 
         }else{
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("Message du client : "+message);
-            System.out.println("--------------------------------------------------------------");
+            logger.debug("--------------------------------------------------------------");
+            logger.info(message.serializer());
+            logger.debug("--------------------------------------------------------------");
         }
     }
 
@@ -176,25 +188,5 @@ public class ServerTCP {
         return false;
     }
 
-    private static void checkIsUserConnected(){
-        if(UserManage.clientsConnected.isEmpty()) {
-            System.out.println("Aucun client connecte");
-            return;
-        }
-        Lock verrou = new ReentrantLock();
-        verrou.lock();
-        try {
-            for (Map.Entry<String, Socket> map : UserManage.clientsConnected.entrySet()) {
-                Socket socketClient = map.getValue();
-                String idUser = map.getKey();
 
-                if (socketClient.isClosed() || !socketClient.isConnected()) {
-                    System.out.println("L'utilisateur avec l'id : " + idUser + " n'est pas connecte");
-                    UserManage.clientsConnected.remove(idUser);
-                }
-            }
-        }finally {
-            verrou.unlock();
-        }
-    }
 }

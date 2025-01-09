@@ -1,0 +1,207 @@
+2025-01-08 10:56:20 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-08 10:56:20 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-08 10:56:20 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-08 10:56:25 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-08 10:56:36 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-08 10:56:36 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-08 10:56:36 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-08 10:56:42 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : a39c99dc-2834-3bf7-8a2d-289237b5ee30
+2025-01-08 10:56:45 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-08 10:56:45 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:56:50 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:56:52 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-08 10:56:55 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:00 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:05 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:10 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:15 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:20 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:25 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:30 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:35 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:36 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-08 10:57:40 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:45 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:50 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:57:55 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:00 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:05 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:10 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:15 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:20 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:25 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:30 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:35 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:40 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:45 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 10:58:50 [DEBUG] [Traitement:39] - Verification socket en cours...
+2025-01-08 11:06:42 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-08 11:06:42 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-08 11:06:42 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-08 11:06:47 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-08 11:06:58 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-08 11:06:58 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-08 11:06:58 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-08 11:07:07 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-08 11:07:32 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-08 11:07:32 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-08 11:07:32 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-08 11:07:39 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : 527bd5b5-d689-32c3-aae9-74c6229ff785
+2025-01-08 11:07:42 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-08 11:07:43 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-08 11:07:52 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-08 11:08:08 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:04:21 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:04:21 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:04:21 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:04:26 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:04:39 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:04:39 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:04:39 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:04:46 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:05:13 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:05:13 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:05:13 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:05:21 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 01:05:30 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:05:30 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:05:30.345227507-05:00
+2025-01-09 01:05:35 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:05:35 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:05:35.502836670-05:00
+2025-01-09 01:06:34 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:06:34 [INFO ] [ServerTCP:102] - idMessage : 509b3b74-2ce8-3cac-8c68-a8713e931c46 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:06:34.447851484-05:00
+2025-01-09 01:07:08 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:07:08 [INFO ] [ServerTCP:102] - idMessage : d4e4e62e-ec70-31aa-a2e9-bb3f5ba3a5ec || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:07:08.548225705-05:00
+2025-01-09 01:07:23 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:07:23 [INFO ] [ServerTCP:102] - idMessage : 5bffd0bd-be97-3615-a2cb-445ca9020d82 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:07:23.594214776-05:00
+2025-01-09 01:08:04 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:08:04 [INFO ] [ServerTCP:102] - idMessage : f852c64a-f08d-3983-9141-e3a721bc4658 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:08:04.765768509-05:00
+2025-01-09 01:21:59 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:21:59 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:21:59 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:22:04 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:22:28 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:22:28 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:22:28 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:22:34 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:22:46 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:22:46 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:22:46 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:22:54 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 01:22:55 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:22:55 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:22:55.565807782-05:00
+2025-01-09 01:22:58 [INFO ] [ServerTCP:92] - idMessage : af4fef1b-c086-3ca2-824d-b7315f844327 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e  || code : 0 || date : 2025-01-09T01:22:58.813364834-05:00
+2025-01-09 01:23:06 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:23:06 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:23:06.782843378-05:00
+2025-01-09 01:23:26 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:23:26 [INFO ] [ServerTCP:102] - idMessage : c65b59eb-db96-3dcb-bc17-c047d8844827 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:23:26.848782510-05:00
+2025-01-09 01:23:56 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:23:56 [INFO ] [ServerTCP:102] - idMessage : d6ea74e8-c683-336b-bac4-5ff4a488d60a || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:23:56.347653533-05:00
+2025-01-09 01:24:10 [INFO ] [ServerTCP:92] - idMessage : 5d41402a-bc4b-3a76-b971-9d911017c592 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e  || code : 0 || date : 2025-01-09T01:24:10.359917721-05:00
+2025-01-09 01:25:48 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:25:48 [INFO ] [ServerTCP:102] - idMessage : 765b0fa5-3994-3438-a73b-69a4b8e2101c || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:25:48.870472467-05:00
+2025-01-09 01:26:07 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:26:07 [INFO ] [ServerTCP:102] - idMessage : 15878d39-6537-37a1-8418-394f7e17aff9 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:26:07.882346407-05:00
+2025-01-09 01:34:41 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:34:41 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:34:41 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:34:46 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:34:54 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:34:54 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:34:54 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:35:00 [ERROR] [ServerTCP:33] - Une erreur s'est produite : java.io.StreamCorruptedException: invalid type code: AC
+2025-01-09 01:35:01 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:37:13 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:37:13 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:37:13 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:37:18 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:37:30 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:37:30 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:37:30 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:37:36 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : a9c4cef5-7357-30e6-97b7-c25b9dcb807b
+2025-01-09 01:37:38 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:37:40 [INFO ] [ServerTCP:92] - idMessage : af4fef1b-c086-3ca2-824d-b7315f844327 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e  || code : 0 || date : 2025-01-09T01:37:40.198780153-05:00
+2025-01-09 01:37:45 [INFO ] [ServerTCP:92] - idMessage : 8b1a9953-c461-3296-a827-abf8c47804d7 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e  || code : 0 || date : 2025-01-09T01:37:45.669226498-05:00
+2025-01-09 01:38:29 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:38:29 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:38:29 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:38:37 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:38:37 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:38:37.417530067-05:00
+2025-01-09 01:38:38 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 01:38:59 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:38:59 [INFO ] [ServerTCP:102] - idMessage : a9930615-8df7-3093-bc9a-cf28750fabd2 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:38:59.449849818-05:00
+2025-01-09 01:45:57 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:45:57 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:45:57 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:46:02 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:46:53 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:46:53 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:46:53 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:51:42 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:52:10 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:52:10 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:52:10 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:52:22 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 01:52:23 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:52:23 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:52:23.875268817-05:00
+2025-01-09 01:52:47 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:52:47 [INFO ] [ServerTCP:102] - idMessage : cabc6823-0b5c-3eb9-99cb-b41ba1799a91 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:52:47.877032816-05:00
+2025-01-09 01:56:01 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 01:56:01 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 01:56:01 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 01:56:06 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 01:56:37 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:56:37 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:56:37 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:56:46 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : 006ce492-2072-31e7-b8b7-33347fe1a40b
+2025-01-09 01:56:46 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 01:56:59 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 01:56:59 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 01:56:59 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 01:57:23 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : 8bce92fa-2b10-3ac1-9b0f-aaf29c4c971c
+2025-01-09 01:57:26 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 01:57:26 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T01:57:26.419655939-05:00
+2025-01-09 01:57:26 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 01:57:52 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:57:52 [INFO ] [ServerTCP:102] - idMessage : 735fa424-96a9-341d-a7cd-04ddb15422ce || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:57:52.569723998-05:00
+2025-01-09 01:58:17 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:58:17 [INFO ] [ServerTCP:102] - idMessage : d7af67ec-60f1-3433-a732-f592f3685b7c || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:58:17.755858824-05:00
+2025-01-09 01:58:57 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:58:57 [INFO ] [ServerTCP:102] - idMessage : a58f090b-7099-393a-93f8-062ccc9494a5 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:58:57.991126953-05:00
+2025-01-09 01:59:24 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 01:59:24 [INFO ] [ServerTCP:102] - idMessage : 9b4a81a0-019a-397a-8cb1-d5e616f2b946 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T01:59:24.066340805-05:00
+2025-01-09 02:04:40 [DEBUG] [ServerTCP:23] - ----------------------
+2025-01-09 02:04:40 [WARN ] [ServerTCP:24] - Lancement du serveur
+2025-01-09 02:04:40 [DEBUG] [ServerTCP:25] - ----------------------
+2025-01-09 02:04:45 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-09 02:05:29 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 02:05:29 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 02:05:29 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 02:05:40 [INFO ] [Traitement:29] - Nombre clients connectes : 1
+2025-01-09 02:05:58 [DEBUG] [ServerTCP:44] - -------------------------------------------------
+2025-01-09 02:05:58 [INFO ] [ServerTCP:45] - Connexion avec : /127.0.0.1
+2025-01-09 02:05:58 [DEBUG] [ServerTCP:46] - -------------------------------------------------
+2025-01-09 02:06:04 [INFO ] [FileManagement:18] - Donnee sauvegarder dans le fichier : df256845-c721-3af8-a6ef-1a25d13ba7be
+2025-01-09 02:06:05 [INFO ] [Traitement:29] - Nombre clients connectes : 2
+2025-01-09 02:06:10 [INFO ] [ServerTCP:101] - commande de l'utilisateur : LIST
+2025-01-09 02:06:10 [INFO ] [ServerTCP:102] - idMessage : a39c99dc-2834-3bf7-8a2d-289237b5ee30 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : LIST  || date : 2025-01-09T02:06:10.338324550-05:00
+2025-01-09 02:06:29 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 02:06:29 [INFO ] [ServerTCP:102] - idMessage : 9a0c68c5-929b-3517-9f25-0d55b3b0b019 || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T02:06:29.394511942-05:00
+2025-01-09 02:06:29 [INFO ] [ServerTCP:138] - ================================================================
+Sender : df256845-c721-3af8-a6ef-1a25d13ba7be
+Contenu : yoo Bro
+Date : 2025-01-09
+================================================================
+
+2025-01-09 02:07:22 [INFO ] [ServerTCP:101] - commande de l'utilisateur : SENDTO
+2025-01-09 02:07:22 [INFO ] [ServerTCP:102] - idMessage : 40f2af6c-5f3e-38e8-96d1-fdac9f42807c || idSender : d41d8cd9-8f00-3204-a980-0998ecf8427e || cmd : SENDTO  || date : 2025-01-09T02:07:22.888060319-05:00
+2025-01-09 02:07:22 [INFO ] [ServerTCP:138] - ================================================================
+Sender : 006ce492-2072-31e7-b8b7-33347fe1a40b
+Contenu : chyen
+Date : 2025-01-09
+================================================================
+
+2025-01-09 02:07:33 [WARN ] [ServerTCP:87] - Deconnection du client avec le uuid : df256845-c721-3af8-a6ef-1a25d13ba7be
+2025-01-09 02:07:33 [ERROR] [ServerTCP:33] - Une erreur s'est produite : java.net.SocketException: Socket is closed
+2025-01-09 02:07:35 [INFO ] [Traitement:45] - Utilisateur deconnecte uuid : df256845-c721-3af8-a6ef-1a25d13ba7be
+2025-01-09 02:07:41 [WARN ] [ServerTCP:87] - Deconnection du client avec le uuid : 006ce492-2072-31e7-b8b7-33347fe1a40b
+2025-01-09 02:07:41 [ERROR] [ServerTCP:33] - Une erreur s'est produite : java.net.SocketException: Socket is closed

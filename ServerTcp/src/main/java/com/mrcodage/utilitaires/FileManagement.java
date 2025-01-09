@@ -1,22 +1,29 @@
-package com.mrcodage.file_utilitaires;
+package com.mrcodage.utilitaires;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
 public abstract class FileManagement {
 
     static final String _ROOT_ = System.getProperty("user.dir");
+    private static final Logger logger = LogManager.getLogger(FileManagement.class);
 
     public static void writeOnFile(File file, String data) throws IOException {
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(file, true))) {
             out.write(data);
             out.newLine();
-            System.out.println("Data sauvegarder dans le fichier");
+            logger.info("Donnee sauvegarder dans le fichier : {}",data);
         } catch (IOException e) {
-            System.out.println("Un probleme est survenue");
-            e.printStackTrace();
+            getLoggerError(e);
         }
 
+    }
+
+    private static void getLoggerError(Exception e) {
+        logger.error("Un probleme est survenu : {}", e.getMessage());
     }
 
     public static void readOnFile(File file){
@@ -26,10 +33,9 @@ public abstract class FileManagement {
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
             }
-            System.out.println("Termine la lecture");
+            logger.debug("Lecture terminee");
         } catch (Exception e) {
-            System.out.println("Un probleme est survenu lors de l'operation");
-            e.printStackTrace();
+            getLoggerError(e);
         }
 
     }
@@ -45,13 +51,13 @@ public abstract class FileManagement {
                     break;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            getLoggerError(e);
         }
 
         return isFind;
     }
 
-    public static boolean verifyIsFileExists(String fileName){
+    public static void verifyIsFileExists(String fileName){
         final String pathNameFile=_ROOT_+ File.separator+"ServerTcp"+File.separator+fileName;
         boolean isExist=false;
 
@@ -59,20 +65,16 @@ public abstract class FileManagement {
         if(!file.exists()){
             try {
                 isExist=file.createNewFile();
-                System.out.println("Le fichier a ete creer");
+                logger.warn("Le fichier '{}' a ete cree",file.getName());
             } catch (IOException e) {
-                System.out.println("Erreur lors de la creation du fichier");
-                e.printStackTrace();
+                logger.error("Un probleme est survenu lors de la creation du fichier : {}",e.getMessage());
+
             }
-        }else {
-            System.out.println("Le fichier existe deja");
         }
-        return isExist;
     }
 
     public static File getFile(String fileName){
         final String pathNameFile=_ROOT_+ File.separator+"ServerTcp"+File.separator+fileName;
-
         return new File(pathNameFile);
     }
 }

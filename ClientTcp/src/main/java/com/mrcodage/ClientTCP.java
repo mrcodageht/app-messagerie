@@ -64,36 +64,69 @@ public class ClientTCP {
     }
 
     private static void communicate(Socket socket) throws IOException,ClassNotFoundException{
-        Runnable Thread = ()->{
-            while (!socket.isClosed()) {
-                try {
-                    if(!socket.isClosed()) {
-                        sendMessage(socket);
-                    }
-                    readMessage(socket);
-                }catch(SocketException e){
-                    System.out.println("Hors ligne a "+ OffsetDateTime.now().format(ISO_LOCAL_DATE));
-                    break;
-                }
-                catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
 
-            }
-        };
-        Thread.run();
+            Runnable sendingThread = () -> {
+                while (!socket.isClosed() || socket.isConnected()) {
+                    try {
+                        if (!socket.isClosed()) {
+                            sendMessage(socket);
+                            Thread.sleep(5000);
+                        }
+                    } catch (SocketException e) {
+                        System.out.println("Hors ligne a " + OffsetDateTime.now().format(ISO_LOCAL_DATE));
+                        break;
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+            Runnable listenningThread = () -> {
+                while (!socket.isClosed() || socket.isConnected()) {
+                    try {
+                        readMessage(socket);
+                    } catch (SocketException e) {
+                        System.out.println("Hors ligne a " + OffsetDateTime.now().format(ISO_LOCAL_DATE));
+                        break;
+                    } catch (IOException | ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            };
+            new Thread(sendingThread).start();
+            new Thread(listenningThread).start();
+//        Runnable Thread = ()->{
+//            while (!socket.isClosed()) {
+//                try {
+//                    if(!socket.isClosed()) {
+//                        sendMessage(socket);
+//                    }
+//                    readMessage(socket);
+//                }catch(SocketException e){
+//                    System.out.println("Hors ligne a "+ OffsetDateTime.now().format(ISO_LOCAL_DATE));
+//                    break;
+//                }
+//                catch (IOException | ClassNotFoundException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        };
+//        Thread.run();
 
     }
 
     private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {
         var in = new ObjectInputStream(socket.getInputStream());
         Message messageLu = (Message) in.readObject();
-        if(messageLu.getCode()==210){
-            socket.close();
-        } else if (messageLu.getCode()==105) {
-            socket.close();
-            return;
+        if(messageLu.getCode() != null) {
+            if (messageLu.getCode() == 210) {
+                socket.close();
+            } else if (messageLu.getCode() == 105) {
+                socket.close();
+                return;
+            }
         }
+
         if(messageLu.getCommand() != null){
             switch(messageLu.getCommand()) {
                 case CommandServer.LIST-> {
@@ -106,7 +139,7 @@ public class ClientTCP {
                     }
                 }
                 case CommandServer.SENDTO -> {
-
+                    System.out.println(messageLu.serializer());
                 }
             }
         }else
@@ -137,7 +170,7 @@ public class ClientTCP {
     }
 
     private static void formatMessage(Message messageToFormat){
-        System.out.printf("\t\t[%s] : %s : [%s]\n",messageToFormat.getSender(),messageToFormat.getContent(),messageToFormat.getDateTime().format(ISO_LOCAL_DATE));
+        System.out.printf("\n\t\t[%s] : %s : [%s]\n",messageToFormat.getSender(),messageToFormat.getContent(),messageToFormat.getDateTime().format(ISO_LOCAL_DATE));
     }
 
     private static Message readInputUserAndConstructMessage(){
@@ -145,6 +178,7 @@ public class ClientTCP {
         String content="";
         Scanner sc = new Scanner(System.in);
         while(content.isBlank()) {
+            System.out.println();
             System.out.print("Vous > ");
             content = sc.nextLine().trim();
         }
