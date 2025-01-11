@@ -1,4 +1,4 @@
-package com.mrcodage.utilitaires;
+package com.mrcodage.data;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

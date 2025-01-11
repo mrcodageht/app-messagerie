@@ -1,6 +1,6 @@
 package com.mrcodage;
 
-import com.mrcodage.utilitaires.FileManagement;
+import com.mrcodage.data.FileManagement;
 import com.mrcodage.model.Message;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class ServerTCP {
@@ -124,7 +123,7 @@ public class ServerTCP {
                         sendMessage(socketClient, new Message("server", "Demande de tchat avec id : " + userToChatId));
                         Socket socketToSendMessage = UserManage.clientsConnected.get(userToChatId);
                         if(socketToSendMessage == null){
-                            throw new ClientNotFoundException(userToChatId);
+                            throw new UserNotFoundException(userToChatId);
                         }
                         String uuidSender = UserManage.clientsConnected.entrySet().stream()
                                 .filter((us)->us.getValue()==socketClient)

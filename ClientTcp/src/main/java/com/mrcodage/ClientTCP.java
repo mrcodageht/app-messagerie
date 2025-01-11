@@ -1,7 +1,9 @@
 package com.mrcodage;
 
 import com.mrcodage.model.Message;
+import com.mrcodage.model.UserToConnect;
 import com.mrcodage.utilitaires.SynopsisCMD;
+import com.mrcodage.utilitaires.UserMethodeInterface;
 
 import javax.crypto.spec.PSource;
 import java.io.IOException;
@@ -13,10 +15,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
@@ -43,10 +42,22 @@ public class ClientTCP {
 
     private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
         var out = new ObjectOutputStream(socket.getOutputStream());
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Entrez votre username de connection");
-        System.out.print("username %> ");
-        String username = sc.nextLine();
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("Entrez votre username de connection");
+//        System.out.print("username %> ");
+//        String username = sc.nextLine();
+
+        HashMap<String,String> credentials = UserMethodeInterface.getUserIdentifiantConnection();
+        String username = "";
+        String password = "";
+
+        for(Map.Entry<String,String> credential : credentials.entrySet()){
+            username = credential.getKey();
+            password = credential.getValue();
+        }
+        UserToConnect userToConnect = new UserToConnect(username,password);
+
+//        TODO: creez un constructeur dans messgae qui pend un parametre userToConnect pour mettre en place l'option de connexion via l'username et password
         String clientId = generate_uuid(username);
         Message connectionMessage = new Message(username,clientId,100);
         out.writeObject(connectionMessage);
