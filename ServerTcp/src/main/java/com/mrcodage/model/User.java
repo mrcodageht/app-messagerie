@@ -8,17 +8,20 @@ import java.util.Date;
 public class User {
     private String firstname;
     private String lastname;
-    private String username;
-    private String password;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date created_at;
+    private Account account;
 
-    public User(String firstname, String lastname, String username, String password) {
+    public User(String firstname, String lastname, Account account) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.username = username;
-        this.password = password;
-        this.created_at = new Date();
+        this.account = account;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public  User(){}
@@ -39,23 +42,12 @@ public class User {
         this.lastname = lastname;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", account=" + account.toString() +
+                '}';
     }
 }

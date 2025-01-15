@@ -1,5 +1,5 @@
 package com.mrcodage;
 
 public enum CommandServer {
-    SENDTO,LIST,QUIT,BROADCAST
+    SENDTO,LIST,QUIT,BROADCAST,CONNECT
 }

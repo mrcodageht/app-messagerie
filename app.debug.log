@@ -205,3 +205,39 @@ Date : 2025-01-09
 2025-01-09 02:07:35 [INFO ] [Traitement:45] - Utilisateur deconnecte uuid : df256845-c721-3af8-a6ef-1a25d13ba7be
 2025-01-09 02:07:41 [WARN ] [ServerTCP:87] - Deconnection du client avec le uuid : 006ce492-2072-31e7-b8b7-33347fe1a40b
 2025-01-09 02:07:41 [ERROR] [ServerTCP:33] - Une erreur s'est produite : java.net.SocketException: Socket is closed
+2025-01-13 05:57:59 [DEBUG] [ServerTCP:22] - ----------------------
+2025-01-13 05:57:59 [WARN ] [ServerTCP:23] - Lancement du serveur
+2025-01-13 05:57:59 [DEBUG] [ServerTCP:24] - ----------------------
+2025-01-13 05:58:04 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-13 05:58:37 [DEBUG] [ServerTCP:43] - -------------------------------------------------
+2025-01-13 05:58:37 [INFO ] [ServerTCP:44] - Connexion avec : /127.0.0.1
+2025-01-13 05:58:37 [DEBUG] [ServerTCP:45] - -------------------------------------------------
+2025-01-13 05:59:18 [ERROR] [ServerTCP:32] - Une erreur s'est produite : java.io.EOFException
+2025-01-13 06:02:24 [DEBUG] [ServerTCP:43] - -------------------------------------------------
+2025-01-13 06:02:24 [INFO ] [ServerTCP:44] - Connexion avec : /127.0.0.1
+2025-01-13 06:02:24 [DEBUG] [ServerTCP:45] - -------------------------------------------------
+2025-01-13 06:02:45 [ERROR] [ServerTCP:32] - Une erreur s'est produite : java.io.EOFException
+2025-01-13 06:21:03 [DEBUG] [ServerTCP:22] - ----------------------
+2025-01-13 06:21:03 [WARN ] [ServerTCP:23] - Lancement du serveur
+2025-01-13 06:21:03 [DEBUG] [ServerTCP:24] - ----------------------
+2025-01-13 06:21:08 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-13 06:22:19 [DEBUG] [ServerTCP:22] - ----------------------
+2025-01-13 06:22:19 [WARN ] [ServerTCP:23] - Lancement du serveur
+2025-01-13 06:22:19 [DEBUG] [ServerTCP:24] - ----------------------
+2025-01-13 06:22:24 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-13 06:22:46 [DEBUG] [ServerTCP:43] - -------------------------------------------------
+2025-01-13 06:22:46 [INFO ] [ServerTCP:44] - Connexion avec : /127.0.0.1
+2025-01-13 06:22:46 [DEBUG] [ServerTCP:45] - -------------------------------------------------
+2025-01-13 06:23:01 [ERROR] [ServerTCP:32] - Une erreur s'est produite : java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: com.mrcodage.model.UserToConnect
+2025-01-13 06:25:50 [DEBUG] [ServerTCP:43] - -------------------------------------------------
+2025-01-13 06:25:50 [INFO ] [ServerTCP:44] - Connexion avec : /127.0.0.1
+2025-01-13 06:25:50 [DEBUG] [ServerTCP:45] - -------------------------------------------------
+2025-01-13 06:26:02 [ERROR] [ServerTCP:32] - Une erreur s'est produite : java.io.WriteAbortedException: writing aborted; java.io.NotSerializableException: com.mrcodage.model.UserToConnect
+2025-01-13 06:27:17 [DEBUG] [ServerTCP:22] - ----------------------
+2025-01-13 06:27:17 [WARN ] [ServerTCP:23] - Lancement du serveur
+2025-01-13 06:27:17 [DEBUG] [ServerTCP:24] - ----------------------
+2025-01-13 06:27:22 [INFO ] [Traitement:29] - Nombre clients connectes : 0
+2025-01-13 06:27:23 [DEBUG] [ServerTCP:43] - -------------------------------------------------
+2025-01-13 06:27:23 [INFO ] [ServerTCP:44] - Connexion avec : /127.0.0.1
+2025-01-13 06:27:23 [DEBUG] [ServerTCP:45] - -------------------------------------------------
+2025-01-13 06:27:35 [ERROR] [ServerTCP:32] - Une erreur s'est produite : java.io.EOFException

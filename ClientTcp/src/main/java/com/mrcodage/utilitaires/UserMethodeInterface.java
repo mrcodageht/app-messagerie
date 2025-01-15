@@ -17,7 +17,7 @@ public interface UserMethodeInterface {
         Scanner sc = new Scanner(System.in);
         System.out.println(message);
         String response = sc.nextLine();
-        sc.close();
+//        sc.close();
         return response;
     }
 }

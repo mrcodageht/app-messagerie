@@ -1,0 +1,10 @@
+[ {
+  "firstname" : "wesner",
+  "lastname" : "philogene",
+  "account" : {
+    "username" : "bobby",
+    "salt" : "1BFX4BdLjaXGqUvrnoDydQ==",
+    "password" : "hNeRC5TJKA0qhHL4JhP+V4gF/Wa6m2WRkrbhy+36ZZs=",
+    "created_at" : "2025-01-15"
+  }
+} ]

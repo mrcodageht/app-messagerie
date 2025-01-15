@@ -42,10 +42,6 @@ public class ClientTCP {
 
     private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
         var out = new ObjectOutputStream(socket.getOutputStream());
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("Entrez votre username de connection");
-//        System.out.print("username %> ");
-//        String username = sc.nextLine();
 
         HashMap<String,String> credentials = UserMethodeInterface.getUserIdentifiantConnection();
         String username = "";
@@ -56,16 +52,20 @@ public class ClientTCP {
             password = credential.getValue();
         }
         UserToConnect userToConnect = new UserToConnect(username,password);
+        System.out.println("Parametres de connexion");
+        System.out.println("username : "+username);
+        System.out.println("Password : "+password);
 
-//        TODO: creez un constructeur dans messgae qui pend un parametre userToConnect pour mettre en place l'option de connexion via l'username et password
-        String clientId = generate_uuid(username);
-        Message connectionMessage = new Message(username,clientId,100);
+
+        String clientId = generate_uuid("client");
+        Message connectionMessage = new Message(username,userToConnect,CommandServer.CONNECT);
         out.writeObject(connectionMessage);
 
 //        Lecture de la response du serveur
         var in = new ObjectInputStream(socket.getInputStream());
         Message messageLu = (Message) in.readObject();
         formatMessage(messageLu);
+        System.exit(0);
         if(messageLu.getCode()==210){
             return false;
         } else if (messageLu.getCode() == 200) {
@@ -105,25 +105,6 @@ public class ClientTCP {
             };
             new Thread(sendingThread).start();
             new Thread(listenningThread).start();
-//        Runnable Thread = ()->{
-//            while (!socket.isClosed()) {
-//                try {
-//                    if(!socket.isClosed()) {
-//                        sendMessage(socket);
-//                    }
-//                    readMessage(socket);
-//                }catch(SocketException e){
-//                    System.out.println("Hors ligne a "+ OffsetDateTime.now().format(ISO_LOCAL_DATE));
-//                    break;
-//                }
-//                catch (IOException | ClassNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-//
-//            }
-//        };
-//        Thread.run();
-
     }
 
     private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {

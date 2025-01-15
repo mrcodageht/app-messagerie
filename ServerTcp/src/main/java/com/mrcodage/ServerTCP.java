@@ -60,8 +60,8 @@ public class ServerTCP {
         out.writeObject(message);
     }
 
-    private static void sendResponseRequestConnection(Socket socketClient, String message,int code) throws IOException{
-        Message responseConnection = new Message("server",message,code);
+    private static void sendResponseRequestConnection(Socket socketClient, String message,CommandServer commandServer) throws IOException{
+        Message responseConnection = new Message("server",message,commandServer);
         sendMessage(socketClient,responseConnection);
     }
 
@@ -148,29 +148,33 @@ public class ServerTCP {
     private static void requestConnectionClient(Socket socketClient) throws IOException, ClassNotFoundException{
         var in = new ObjectInputStream(socketClient.getInputStream());
         Message message = (Message) in.readObject();
-
-        if(message.getCode()==100){
-            if(!vericateUser(message.getContent())) {
-
-                File file = FileManagement.getFile("user-data.txt");
-                FileManagement.verifyIsFileExists(file.getName());
-                if(!FileManagement.findDataOnFile(file, message.getContent())){
-                    FileManagement.writeOnFile(file,message.getContent());
-                }
-                sendResponseRequestConnection(socketClient,"approuve",200);
-                UserManage.clientsConnected.put(message.getContent(),socketClient);
-                UserManage.userTracker.put(message.getSender(), message.getContent());
-
-            }else{
-                sendResponseRequestConnection(socketClient,"Ce client est deja connecte",210);
-                socketClient.close();
-            }
-
-        }else{
-            logger.debug("--------------------------------------------------------------");
-            logger.info(message.serializer());
-            logger.debug("--------------------------------------------------------------");
+        if(message.getCommand() == CommandServer.CONNECT){
+//            TODO: Les parametres de connections seront traites par la classes Authentification service pour determiner si l'utilisateur est valide ou non
+            System.out.println(message.getUserToConnect());
+            sendResponseRequestConnection(socketClient,"approuve",CommandServer.CONNECT);
         }
+//        if(message.getCode()==100){
+//            if(!vericateUser(message.getContent())) {
+//
+//                File file = FileManagement.getFile("user-data.txt");
+//                FileManagement.verifyIsFileExists(file.getName());
+//                if(!FileManagement.findDataOnFile(file, message.getContent())){
+//                    FileManagement.writeOnFile(file,message.getContent());
+//                }
+//                sendResponseRequestConnection(socketClient,"approuve",200);
+//                UserManage.clientsConnected.put(message.getContent(),socketClient);
+//                UserManage.userTracker.put(message.getSender(), message.getContent());
+//
+//            }else{
+//                sendResponseRequestConnection(socketClient,"Ce client est deja connecte",210);
+//                socketClient.close();
+//            }
+//
+//        }else{
+//            logger.debug("--------------------------------------------------------------");
+//            logger.info(message.serializer());
+//            logger.debug("--------------------------------------------------------------");
+//        }
     }
 
     public static boolean vericateUser(String idClient){

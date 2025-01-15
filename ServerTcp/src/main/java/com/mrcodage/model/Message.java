@@ -19,6 +19,7 @@ public class Message implements Serializable, Serialization {
     private String idMessage;
     private Integer code;
     private CommandServer cmd;
+    private UserToConnect userToConnect;
 
 
     public Message(String sender, String content){
@@ -45,8 +46,15 @@ public class Message implements Serializable, Serialization {
         this.cmd = cmd;
     }
 
+    public Message(String sender,UserToConnect userToConnect,CommandServer cmd){
+        this.sender = sender;
+        this.userToConnect = userToConnect;
+        this.cmd = cmd;
+    }
+
     private String generateIdMessage(String content){
-        return String.valueOf(UUID.nameUUIDFromBytes(content.getBytes(StandardCharsets.UTF_8)));
+        String chaine = content+OffsetDateTime.now();
+        return String.valueOf(UUID.nameUUIDFromBytes(chaine.getBytes(StandardCharsets.UTF_8)));
     }
 
     public String getSender() {
@@ -125,7 +133,12 @@ public class Message implements Serializable, Serialization {
         return sb.toString();
     }
 
-//    @Override
+    public UserToConnect getUserToConnect() {
+        return userToConnect;
+    }
+
+
+    //    @Override
 //    public String toString() {
 //        return "Message{" +
 //                "sender='" + sender + '\'' +

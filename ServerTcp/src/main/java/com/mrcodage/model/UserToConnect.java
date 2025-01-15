@@ -1,4 +1,6 @@
 package com.mrcodage.model;
 
-public record UserToConnect(String username, String password) {
+import java.io.Serializable;
+
+public record UserToConnect(String username, String password) implements Serializable {
 }
