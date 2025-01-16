@@ -3,6 +3,7 @@ package com.mrcodage.model;
 import com.mrcodage.CommandServer;
 import com.mrcodage.utilitaires.Serialization;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
@@ -12,7 +13,8 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ofLocalizedDateTime;
 
 public class Message implements Serializable, Serialization {
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String sender;
     private String content;
     private OffsetDateTime dateTime;
@@ -34,7 +36,7 @@ public class Message implements Serializable, Serialization {
         this.sender = sender;
         this.content = content;
         this.dateTime = OffsetDateTime.now();
-        this.idMessage = generateIdMessage(content.isEmpty()?"":content);
+        this.idMessage = generateIdMessage(content.isEmpty()?this.sender+this.dateTime:content);
         this.code = code==null?0:code;
     }
 
@@ -49,6 +51,7 @@ public class Message implements Serializable, Serialization {
     public Message(String sender,UserToConnect userToConnect,CommandServer cmd){
         this.sender = sender;
         this.userToConnect = userToConnect;
+        this.dateTime = OffsetDateTime.now();
         this.cmd = cmd;
     }
 

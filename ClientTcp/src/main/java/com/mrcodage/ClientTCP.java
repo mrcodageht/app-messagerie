@@ -1,120 +1,151 @@
 package com.mrcodage;
 
 import com.mrcodage.model.Message;
-import com.mrcodage.model.UserToConnect;
+
+import com.mrcodage.services.AuthentificationClientServices;
+
 import com.mrcodage.utilitaires.SynopsisCMD;
 import com.mrcodage.utilitaires.UserMethodeInterface;
 
-import javax.crypto.spec.PSource;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
+
 import java.nio.charset.StandardCharsets;
-import java.time.OffsetDateTime;
+
 import java.util.*;
 
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
-
 public class ClientTCP {
-    static boolean FIRST_CONNECTION = true;
+    private static volatile boolean isRunning = true;
     static String username = "";
 
     public static void main(String[] args) {
-        try{
-            var server = InetAddress.getByName("localhost");
-            var socket = new Socket(server,ServerTCP.PORT);
+        ClientManage client = new ClientManage();
+        Scanner scanner = new Scanner(System.in);
 
-            if(etablishConnection(socket)) {
-                communicate(socket);
-            }else{
-                socket.close();
+        try {
+            InetAddress ip = InetAddress.getByName("localhost"); // Adresse du serveur
+            client.startConnection(ip, ServerTCP.PORT);
+
+            System.out.println("Tapez 'exit' pour quitter.");
+
+            while (true) {
+                // Lire l'entrée utilisateur
+                System.out.print("Vous: ");
+                String userInput = scanner.nextLine();
+
+                if (userInput.equalsIgnoreCase("exit")) {
+                    client.stopConnection();
+                    break;
+                }
+
+                // Créer un message à envoyer au serveur
+                Message message = new Message("client", userInput);
+                client.sendMessage(message);
+
+                // Recevoir la réponse du serveur
+                Message response = client.receiveMessage();
+                System.out.println("Serveur: " + response.getContent());
             }
-        }catch(SocketException esx){
-            System.out.println("Vous etes deconnecte");
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.err.println("Erreur : " + e.getMessage());
+        } finally {
+            try {
+                client.stopConnection();
+            } catch (IOException e) {
+                System.err.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
+            }
         }
     }
 
-    private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
-        var out = new ObjectOutputStream(socket.getOutputStream());
-
-        HashMap<String,String> credentials = UserMethodeInterface.getUserIdentifiantConnection();
-        String username = "";
-        String password = "";
-
-        for(Map.Entry<String,String> credential : credentials.entrySet()){
-            username = credential.getKey();
-            password = credential.getValue();
-        }
-        UserToConnect userToConnect = new UserToConnect(username,password);
-        System.out.println("Parametres de connexion");
-        System.out.println("username : "+username);
-        System.out.println("Password : "+password);
-
-
-        String clientId = generate_uuid("client");
-        Message connectionMessage = new Message(username,userToConnect,CommandServer.CONNECT);
-        out.writeObject(connectionMessage);
-
-//        Lecture de la response du serveur
-        var in = new ObjectInputStream(socket.getInputStream());
-        Message messageLu = (Message) in.readObject();
-        formatMessage(messageLu);
-        System.exit(0);
-        if(messageLu.getCode()==210){
-            return false;
-        } else if (messageLu.getCode() == 200) {
-            return true;
-        }
-        return true;
-    }
-
-    private static void communicate(Socket socket) throws IOException,ClassNotFoundException{
-
-            Runnable sendingThread = () -> {
-                while (!socket.isClosed() || socket.isConnected()) {
-                    try {
-                        if (!socket.isClosed()) {
-                            sendMessage(socket);
-                            Thread.sleep(5000);
-                        }
-                    } catch (SocketException e) {
-                        System.out.println("Hors ligne a " + OffsetDateTime.now().format(ISO_LOCAL_DATE));
-                        break;
-                    } catch (IOException | InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            };
-            Runnable listenningThread = () -> {
-                while (!socket.isClosed() || socket.isConnected()) {
-                    try {
-                        readMessage(socket);
-                    } catch (SocketException e) {
-                        System.out.println("Hors ligne a " + OffsetDateTime.now().format(ISO_LOCAL_DATE));
-                        break;
-                    } catch (IOException | ClassNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            };
-            new Thread(sendingThread).start();
-            new Thread(listenningThread).start();
+    private static void sendMessage(Socket socket) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        Message greetingMessage = new Message("client","hello server");
+        oos.writeObject(greetingMessage);
+        oos.flush();
     }
 
     private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {
-        var in = new ObjectInputStream(socket.getInputStream());
-        Message messageLu = (Message) in.readObject();
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        System.out.println("Message recu : "+(Message) ois.readObject());
+    }
+
+    private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        AuthentificationClientServices authentificationClientServices = new AuthentificationClientServices(ois,oos);
+        HashMap<String,String> credentials = UserMethodeInterface.getUserIdentifiantConnection();
+        return authentificationClientServices.isConnectionEtablished(credentials);
+    }
+
+    private static void communicate(Socket socket) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+        isRunning = true;
+        System.out.println("Communicate");
+        Thread sendingThread = new Thread(() -> {
+            try {
+                while (isRunning && !socket.isClosed()) {
+                    sendMessage(oos);
+                    Thread.sleep(5000);
+                }
+            } catch (Exception e) {
+                handleError("Erreur dans sendingThread", e);
+            } finally {
+                stopCommunication(socket);
+            }
+        });
+
+        Thread listeningThread = new Thread(() -> {
+            try {
+                while (isRunning && !socket.isClosed()) {
+                    readMessage(socket, ois);
+                }
+            } catch (Exception e) {
+                handleError("Erreur dans listeningThread", e);
+            } finally {
+                stopCommunication(socket);
+            }
+        });
+
+        sendingThread.start();
+        listeningThread.start();
+    }
+
+    private static void handleError(String messageError, Exception e) {
+        System.err.println(messageError + ": " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    private static void stopCommunication(Socket socket) {
+        isRunning = false;
+        try {
+            if (!socket.isClosed()) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            handleError("Erreur lors de la fermeture du socket", e);
+        }
+    }
+
+
+    private static void getClose(Socket socket) throws IOException {
+        synchronized (socket) {
+            socket.close();
+        }
+    }
+
+
+    private static void readMessage(Socket socket,ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        System.out.println("Message lu");
+        Message messageLu = (Message) ois.readObject();
         if(messageLu.getCode() != null) {
             if (messageLu.getCode() == 210) {
-                socket.close();
+                getClose(socket);
             } else if (messageLu.getCode() == 105) {
-                socket.close();
+                getClose(socket);
                 return;
             }
         }
@@ -135,12 +166,13 @@ public class ClientTCP {
                 }
             }
         }else
-            formatMessage(messageLu);
+            UserMethodeInterface.formatMessage(messageLu);
     }
 
-    private static void sendMessage(Socket socket) throws IOException {
-        var out = new ObjectOutputStream(socket.getOutputStream());
-        Message message = readInputUserAndConstructMessage();
+    private static void sendMessage(ObjectOutputStream oos) throws IOException {
+        System.out.println("Message envoye");
+//        Message message = readInputUserAndConstructMessage();
+        Message message = new Message("client","hello server");
         boolean isCorrect=false;
 
         if(message.getCommand() != null && message.getCommand() == CommandServer.SENDTO) {
@@ -152,8 +184,13 @@ public class ClientTCP {
                     message = readInputUserAndConstructMessage();
                 }
             }while(!isCorrect);
+            synchronized (oos) {
+                oos.reset();
+                oos.writeObject(message);
+                oos.flush();
+            }
         }
-        out.writeObject(message);
+
     }
 
     private static String generate_uuid(String username){
@@ -161,9 +198,7 @@ public class ClientTCP {
         return String.valueOf(uuid);
     }
 
-    private static void formatMessage(Message messageToFormat){
-        System.out.printf("\n\t\t[%s] : %s : [%s]\n",messageToFormat.getSender(),messageToFormat.getContent(),messageToFormat.getDateTime().format(ISO_LOCAL_DATE));
-    }
+
 
     private static Message readInputUserAndConstructMessage(){
         List<String> commandUserList_str = List.of("/list","/quit","/sendto","/broadcast");

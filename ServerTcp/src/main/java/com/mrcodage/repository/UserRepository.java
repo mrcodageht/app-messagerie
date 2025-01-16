@@ -15,7 +15,8 @@ import java.util.List;
 public class UserRepository {
     private File jsonFile;
     public UserRepository() throws IOException {
-        this.jsonFile = new File(Variables.PATHUSERSFILEDATA);
+        this.jsonFile = new File(System.getProperty("user.dir")+ File.separator+"ServerTcp"+File.separator+"users.json");
+        System.out.println(this.jsonFile.getAbsolutePath());
         if(!this.jsonFile.exists()){
             this.jsonFile.createNewFile();
         }

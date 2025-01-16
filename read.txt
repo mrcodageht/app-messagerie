@@ -1,0 +1,22 @@
+//        if(message.getCode()==100){
+//            if(!vericateUser(message.getContent())) {
+//
+//                File file = FileManagement.getFile("user-data.txt");
+//                FileManagement.verifyIsFileExists(file.getName());
+//                if(!FileManagement.findDataOnFile(file, message.getContent())){
+//                    FileManagement.writeOnFile(file,message.getContent());
+//                }
+//                sendResponseRequestConnection(socketClient,"approuve",200);
+//                UserManage.clientsConnected.put(message.getContent(),socketClient);
+//                UserManage.userTracker.put(message.getSender(), message.getContent());
+//
+//            }else{
+//                sendResponseRequestConnection(socketClient,"Ce client est deja connecte",210);
+//                socketClient.close();
+//            }
+//
+//        }else{
+//            logger.debug("--------------------------------------------------------------");
+//            logger.info(message.serializer());
+//            logger.debug("--------------------------------------------------------------");
+//        }

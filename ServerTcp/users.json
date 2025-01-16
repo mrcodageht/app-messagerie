@@ -1,0 +1,10 @@
+[ {
+  "firstname" : "joe",
+  "lastname" : "doe",
+  "account" : {
+    "username" : "joedoe",
+    "salt" : "y4YlDlH9cZ5swq6gTyZY2A==",
+    "password" : "AbKZ6tf7hJd7R9sxvQLRfjwklRzD1+ui8uSxIj05PIo=",
+    "created_at" : "2025-01-15"
+  }
+} ]

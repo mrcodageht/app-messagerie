@@ -13,6 +13,7 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static final Logger logger = LogManager.getLogger(Main.class);
@@ -21,8 +22,13 @@ public class Main {
 //        hNeRC5TJKA0qhHL4JhP+V4gF/Wa6m2WRkrbhy+36ZZs=
 
         byte[] salt = Tools.getByteSaltEncodeBase64("1BFX4BdLjaXGqUvrnoDydQ==");
-//        System.out.println(Arrays.toString(salt));
-        byte[] passwordHash = PasswordTools.hashPassword("wesner123",salt);
+
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Entrez votre mot de passe");
+        String plainPassword = sc.nextLine();
+
+        byte[] passwordHash = PasswordTools.hashPassword(plainPassword,salt);
         System.out.println(DatatypeConverter.printBase64Binary(passwordHash));
 
         Account account = new Account("bobby",DatatypeConverter.printBase64Binary(salt),DatatypeConverter.printBase64Binary(passwordHash));
