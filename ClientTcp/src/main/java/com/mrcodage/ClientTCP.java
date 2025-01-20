@@ -74,6 +74,12 @@ public class ClientTCP {
         return authentificationClientServices.isConnectionEtablished(credentials);
     }
 
+    private static boolean registerNewClient(ObjectInputStream ois, ObjectOutputStream oos) throws IOException, ClassNotFoundException {
+        AuthentificationClientServices authentificationClientServices = new AuthentificationClientServices(ois,oos);
+        HashMap<String,String> registerInfos = UserMethodeInterface.userRegisterInfos();
+        return authentificationClientServices.isRegisterCorrectly(registerInfos);
+    }
+
     private static void communicate(Socket socket) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());

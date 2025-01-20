@@ -1,19 +1,24 @@
 package com.mrcodage;
 
+import com.mrcodage.model.UserToRegister;
+import com.mrcodage.utilitaires.UserMethodeInterface;
+
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {
-        String username = "Wesner";
+        Map<String,String> mapInfos = UserMethodeInterface.userRegisterInfos();
 
-        var uuid = UUID.nameUUIDFromBytes(username.getBytes(StandardCharsets.UTF_8));
-        System.out.println(uuid);
+        UserToRegister newUser = new UserToRegister(
+                mapInfos.get("firstname"),
+                mapInfos.get("lastname"),
+                mapInfos.get("username"),
+                mapInfos.get("password")
+        );
 
-        String chaine = "<destinatare>";
-
-
-        System.out.println(String.valueOf(chaine.charAt(chaine.length()-1)).equals(">")?"Egale": "pas egale");
-
+        System.out.println("Nouvel utilisateur : ");
+        System.out.println(newUser);
     }
 }
