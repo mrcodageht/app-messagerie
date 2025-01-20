@@ -5,10 +5,15 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
-public abstract class FileManagement {
+public class FileManagement {
 
     static final String _ROOT_ = System.getProperty("user.dir");
     private static final Logger logger = LogManager.getLogger(FileManagement.class);
+    private File file;
+
+    public FileManagement(String fileName){
+
+    }
 
     public static void writeOnFile(File file, String data) throws IOException {
 

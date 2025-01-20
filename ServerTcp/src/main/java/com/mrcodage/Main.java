@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.*;
+import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
@@ -19,26 +20,5 @@ public class Main {
     public static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
 
-//        hNeRC5TJKA0qhHL4JhP+V4gF/Wa6m2WRkrbhy+36ZZs=
-
-        byte[] salt = Tools.getByteSaltEncodeBase64("1BFX4BdLjaXGqUvrnoDydQ==");
-
-
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Entrez votre mot de passe");
-        String plainPassword = sc.nextLine();
-
-        byte[] passwordHash = PasswordTools.hashPassword(plainPassword,salt);
-        System.out.println(DatatypeConverter.printBase64Binary(passwordHash));
-
-        Account account = new Account("bobby",DatatypeConverter.printBase64Binary(salt),DatatypeConverter.printBase64Binary(passwordHash));
-        User user = new User("wesner","philogene",account);
-        System.exit(0);
-        System.out.println(Variables.PATHUSERSFILEDATA);
-        File file = new File(System.getProperty("user.dir")+ File.separator+"users.json");
-
-        UserJsonMapper.toJson(user,file);
-        List<User> users = UserJsonMapper.toUser(file);
-        users.forEach(System.out::println);
     }
 }

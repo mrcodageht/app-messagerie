@@ -30,24 +30,31 @@ public class ClientTCP {
             client.startConnection(ip, ServerTCP.PORT);
 
             System.out.println("Tapez 'exit' pour quitter.");
+            if(etablishConnection(client.getOis(),client.getOos())) {
+                System.out.println("Identifiants de connection correctes");
+                while (true) {
+                    // Lire l'entrée utilisateur
+                    System.out.print("Vous: ");
+                    String userInput = scanner.nextLine();
 
-            while (true) {
-                // Lire l'entrée utilisateur
-                System.out.print("Vous: ");
-                String userInput = scanner.nextLine();
+                    if (userInput.equalsIgnoreCase("exit")) {
+                        client.stopConnection();
+                        break;
+                    }
 
-                if (userInput.equalsIgnoreCase("exit")) {
-                    client.stopConnection();
-                    break;
+                    // Créer un message à envoyer au serveur
+                    Message message = new Message("client", userInput);
+                    if (userInput.equalsIgnoreCase("test") || userInput.equalsIgnoreCase("debug")) {
+                        message.setCommand(CommandServer.DEBUG);
+                    }
+                    client.sendMessage(message);
+
+                    // Recevoir la réponse du serveur
+                    Message response = client.receiveMessage();
+                    System.out.println("Serveur: " + response.getContent());
                 }
-
-                // Créer un message à envoyer au serveur
-                Message message = new Message("client", userInput);
-                client.sendMessage(message);
-
-                // Recevoir la réponse du serveur
-                Message response = client.receiveMessage();
-                System.out.println("Serveur: " + response.getContent());
+            }else{
+                System.err.println("Conection non etablie");
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Erreur : " + e.getMessage());
@@ -60,21 +67,8 @@ public class ClientTCP {
         }
     }
 
-    private static void sendMessage(Socket socket) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-        Message greetingMessage = new Message("client","hello server");
-        oos.writeObject(greetingMessage);
-        oos.flush();
-    }
 
-    private static void readMessage(Socket socket) throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-        System.out.println("Message recu : "+(Message) ois.readObject());
-    }
-
-    private static boolean etablishConnection(Socket socket) throws IOException, ClassNotFoundException{
-        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+    private static boolean etablishConnection(ObjectInputStream ois, ObjectOutputStream oos) throws IOException, ClassNotFoundException{
         AuthentificationClientServices authentificationClientServices = new AuthentificationClientServices(ois,oos);
         HashMap<String,String> credentials = UserMethodeInterface.getUserIdentifiantConnection();
         return authentificationClientServices.isConnectionEtablished(credentials);

@@ -1,6 +1,8 @@
 package com.mrcodage;
 
 import com.mrcodage.model.Message;
+import com.mrcodage.services.CommandHandler;
+import com.mrcodage.services.CommandeServerServices;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -54,10 +56,16 @@ public class ServerManage {
                     System.out.println("Message reçu de " + messageClient.getSender() + ": " + messageClient.getContent());
 
                     // Répondre au client
-                    if (messageClient.getContent().equalsIgnoreCase("hello server")) {
-                        oos.writeObject(new Message("server", "Welcome to MrCodage Server"));
-                    } else {
-                        oos.writeObject(new Message("server", "Unrecognized message"));
+                    if(messageClient.getCommand() !=null){
+                        CommandeServerServices commandeServerServices = new CommandeServerServices();
+                        CommandHandler handler = commandeServerServices.getHandler(messageClient.getCommand());
+                        handler.execute(messageClient,this.socketClient,this.ois,this.oos);
+                    }else {
+                        if (messageClient.getContent().equalsIgnoreCase("hello server")) {
+                            oos.writeObject(new Message("server", "Welcome to MrCodage Server"));
+                        } else {
+                            oos.writeObject(new Message("server", "Unrecognized message"));
+                        }
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {

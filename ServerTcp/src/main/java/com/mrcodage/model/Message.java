@@ -22,13 +22,14 @@ public class Message implements Serializable, Serialization {
     private Integer code;
     private CommandServer cmd;
     private UserToConnect userToConnect;
+    private UserToRegister userToRegister;
 
 
     public Message(String sender, String content){
         this.sender = sender;
         this.content = content;
         this.dateTime = OffsetDateTime.now();
-        this.idMessage = generateIdMessage(content.isEmpty()?"":content);
+        this.idMessage = generateIdMessage(content.isEmpty()?this.sender+this.dateTime:content);
         this.code = 0;
     }
 
@@ -43,7 +44,7 @@ public class Message implements Serializable, Serialization {
     public Message(String sender, String content, CommandServer cmd){
         this.sender=sender;
         this.content = content;
-        this.idMessage = generateIdMessage(content.isEmpty()?"":content);
+        this.idMessage = generateIdMessage(content.isEmpty()?this.sender+this.dateTime:content);
         this.dateTime = OffsetDateTime.now();
         this.cmd = cmd;
     }
@@ -52,8 +53,18 @@ public class Message implements Serializable, Serialization {
         this.sender = sender;
         this.userToConnect = userToConnect;
         this.dateTime = OffsetDateTime.now();
+        this.idMessage = generateIdMessage(content.isEmpty()?this.sender+this.dateTime:content);
         this.cmd = cmd;
     }
+
+    public Message(String sender,UserToRegister userToRegister ,CommandServer cmd){
+        this.sender = sender;
+        this.userToRegister = userToRegister;
+        this.dateTime = OffsetDateTime.now();
+        this.idMessage = generateIdMessage(content.isEmpty()?this.sender+this.dateTime:content);
+        this.cmd = cmd;
+    }
+
 
     private String generateIdMessage(String content){
         String chaine = content+OffsetDateTime.now();
@@ -140,7 +151,9 @@ public class Message implements Serializable, Serialization {
         return userToConnect;
     }
 
-
+    public UserToRegister getUserToRegister() {
+        return userToRegister;
+    }
     //    @Override
 //    public String toString() {
 //        return "Message{" +

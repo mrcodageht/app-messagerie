@@ -20,6 +20,8 @@ public class CommandeServerServices {
         commandHandlers.put(CommandServer.SENDTO,new SendToCommandHandler());
         commandHandlers.put(CommandServer.BROADCAST, new BroadcastCommandHandler());
         commandHandlers.put(CommandServer.QUIT, new QuitCommandHandler());
+        commandHandlers.put(CommandServer.DEBUG, new DebugCommandHandler());
+
     }
 
     public CommandHandler getHandler(CommandServer commandServer){

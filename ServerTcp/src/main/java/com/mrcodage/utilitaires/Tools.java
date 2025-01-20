@@ -11,4 +11,5 @@ public interface Tools {
     static String getStringFromByteEncodeBase64(byte[] byteToDecode){
         return DatatypeConverter.printBase64Binary(byteToDecode);
     }
+
 }

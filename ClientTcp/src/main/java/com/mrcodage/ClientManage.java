@@ -36,4 +36,12 @@ public class ClientManage {
         System.out.println("Connexion fermée.");
     }
 
+    public ObjectOutputStream getOos() {
+        return oos;
+    }
+
+    public ObjectInputStream getOis() {
+        return ois;
+    }
+
 }
